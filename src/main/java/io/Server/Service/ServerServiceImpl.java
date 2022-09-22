@@ -6,11 +6,14 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Collection;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
 import io.Server.Repo.ServerRepo;
 import io.Server.Enumeration.Status;
 import io.Server.Model.Server;
@@ -77,7 +80,9 @@ public class ServerServiceImpl implements ServerService{
 	}
 
 	private String setServerImageUrl() {
+		String[] ServerImagesName={"server1.png","server2.png","server3.png"};
+		
 		// TODO Auto-generated method stub
-		return null;
-	}
+		return ServletUriComponentsBuilder.fromCurrentContextPath().path("/server/image/"+ ServerImagesName[new Random().nextInt(3)]).toUriString();
+	} 
 }
