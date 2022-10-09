@@ -1,6 +1,6 @@
 package io.Server.Service;
 
-import static org.assertj.core.api.Assertions.offset;
+
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -36,20 +36,13 @@ public class ServerServiceImpl implements ServerService{
 	}
 
 	
-
-	public Server ping(String ipAddress){
+@Override
+	public Server ping(String ipAddress) throws IOException {
 		log.info("pinging server IP: {}",ipAddress);
 		Server server =serverRepo.findByIpAddress(ipAddress);
-		InetAddress address;
-		try {
-			address = InetAddress.getByName(ipAddress);
-			server.setStatus(address.isReachable(10000) ?  Status.SERVER_UP :Status.SERVER_DOWN );
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		}
-		// TODO Auto-generated method stub
+		InetAddress address= InetAddress.getByName(ipAddress);
+		server.setStatus(address.isReachable(10000) ?  Status.SERVER_UP : Status.SERVER_DOWN );
+		
 		serverRepo.save(server);
 		return server;
 	}
@@ -80,7 +73,7 @@ public class ServerServiceImpl implements ServerService{
 	}
 
 	private String setServerImageUrl() {
-		String[] ServerImagesName={"server1.png","server2.png","server3.png"};
+		String[] ServerImagesName={"server1.png","server2.png","server3.png","server4.png"};
 		
 		// TODO Auto-generated method stub
 		return ServletUriComponentsBuilder.fromCurrentContextPath().path("/server/image/"+ ServerImagesName[new Random().nextInt(3)]).toUriString();
